@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5" style="background-color:rgb(164, 198, 233);" >
+<h2 class="text-center mb-4">SignUp</h2>
+    <form method="POST" class="p-4 border rounded shadow" style="background-color: #d2d9e0;" novalidate >
+     {% if messages %}
+    {% for msg in messages %}
+    <div class="alert alert-primary" role="alert">
+            {{msg}}
+        </div>
+    {% endfor %}
+    {% endif %}
+    {% csrf_token %}
+        <label for="">{{form.username.label}}</label>
+      {{form.username}}
+      <div style="color: red;">
+        {% if form.username.errors %}
+          {{form.username.errors}}
+        {% endif %}
+      </div>
+
+
+       <label for="">{{form.email.label}}</label>
+      {{form.email}}
+      <div style="color: red;">
+        {% if form.email.errors %}
+          {{form.email.errors}}
+        {% endif %}
+      </div>
+
+       <label for="">{{form.password.label}}</label>
+      {{form.password}}
+      <div style="color: red;">
+        {% if form.password.errors %}
+          {{form.password.errors}}
+        {% endif %}
+      </div>
+
+       <label >{{form.confirm_password.label}}</label>
+      {{form.confirm_password}}
+      <label >{{form.referral_code.label}}</label>
+
+      {{form.referral_code}}
+      {{form.referral_code.errors}}
+
+      <div style="color: red;">
+        {% if form.confirn_password.errors %}
+          {{form.confirm_password.errors}}
+        {% elif form.non_field_errors %}
+        {{form.non_field_errors}}
+        {% endif %}
+      </div>
+    
+  <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a href="{% url 'login' %}">Already have an account ?</a>
+  </form>
+</div>
+{% endblock content %}

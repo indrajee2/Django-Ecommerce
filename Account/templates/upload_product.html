@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5" style="background-color: antiquewhite;">
+<h2 class="text-center mb-4">Product Upload</h2>
+
+    <form method="POST" class="p-4 border rounded shadow" enctype="multipart/form-data" novalidate>
+     {% if messages %}
+    {% for msg in messages %}
+    <div class="alert alert-primary" role="alert">
+            {{msg}}
+        </div>
+    {% endfor %}
+    {% endif %}
+    {% csrf_token %}
+    {{form.name.label}}
+    {{form.name}}
+    <div style="color:red; ">{{form.name.errors}}</div>
+
+    {{form.price.label}}
+    {{form.price}}
+    <div style="color:red; ">{{form.price.errors}}</div>
+
+    {{form.discounted_price.label}}
+    {{form.discounted_price}}
+    <div style="color:red; ">{{form.discounted_price.errors}}</div>
+
+    {{form.description.label}}
+    {{form.description}}
+    <div style="color:red; ">{{form.description.errors}}</div>
+
+    {{form.image.label}}
+    {{form.image}}
+    <div style="color:red; ">{{form.image.errors}}</div>
+
+    <div style="color:red; ">{{form.non_field_errors}}</div>
+   
+    <button type="submit" class="btn btn-primary ">Upload</button>
+  </form>
+</div>
+{% endblock content %}

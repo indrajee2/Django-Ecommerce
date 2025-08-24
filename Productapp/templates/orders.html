@@ -1,0 +1,47 @@
+ {% extends 'base.html' %}
+ {% block content %}
+ <div class="container mt-5" style="background-color: antiquewhite;">
+ {% if messages %}
+    {% for msg in messages %}
+    <div class="alert alert-primary" role="alert">
+            {{msg}}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+<table class="table">
+   <button type="submit" class="btn btn-secondary btn-rounded "
+        onclick="history.back()">Back</button>
+    
+  <thead class="thead-light">
+    <tr>
+     
+      <th scope="col">Order Id</th>
+      <th scope="col">product </th>
+      <th scope="col">product price</th>
+      <th scope="col">Discounted price</th>
+      <th scope="col">quantity</th>
+      <th scope="col">status</th>
+    </tr>
+  </thead>
+  <tbody>
+        {% if orders %}
+        {% for items in orders %}
+    <tr>
+      <th scope="row">{{items.payment.id}}</th>
+      <td><img src="{{items.product.image.url}}" width="40px",height="40px"> <a href="{% url 'order_details' items.id %}" style="color: black;"> {{items.product.name}}</a></td>
+      <td>{{items.product.price}}</td>
+      <td>{{items.product.discounted_price}}</td>
+      <td>{{items.quantity}}</td>
+      <td>{{items.status}}</td>
+    </tr>
+   {% endfor %}
+   {% else %}
+   No order items avilable.
+   {% endif %}
+   
+  </tbody>
+</table>
+</div>
+
+{% endblock content %}

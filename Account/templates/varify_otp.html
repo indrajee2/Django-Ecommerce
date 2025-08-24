@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5" style="background-color: antiquewhite;">
+<h2 class="text-center mb-4">OTP</h2>
+    <form method="POST" class="p-4 border rounded shadow">
+       {% if messages %}
+    {% for msg in messages %}
+    <div class="alert alert-primary" role="alert">
+            {{msg}}
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label">Enter Otp</label>
+        <input type="text" class="form-control" name="otp" required>
+      </div>
+      <input type="submit" class="btn btn-danger" value="Varify Otp" required>
+</form>
+</div>
+{% endblock content %}

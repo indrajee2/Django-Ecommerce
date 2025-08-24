@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5" style="background-color: #d2d9e0;">
+<h2 class="text-center mb-4">Edit Profile</h2>
+    <form method="POST" class="p-4 border rounded shadow mb-5" novalidate style="background-color:rgb(125, 157, 216);">
+     {% if messages %}
+    {% for msg in messages %}
+    <div class="alert alert-primary" role="alert">
+            {{msg}}
+        </div>
+    {% endfor %}
+    {% endif %}
+    {% csrf_token %}
+        <label for="">{{form.username.label}}</label>
+      {{form.username}}
+      <div style="color: red;">
+        {% if form.username.errors %}
+          {{form.username.errors}}
+        {% endif %}
+      </div>
+
+
+       <label for="">{{form.first_name.label}}</label>
+      {{form.first_name}}
+      <div style="color: red;">
+        {% if form.first_name.errors %}
+          {{form.first_name.errors}}
+        {% endif %}
+      </div>
+
+       <label for="">{{form.middle_name.label}}</label>
+      {{form.middle_name}}
+      <div style="color: red;">
+        {% if form.middle_name.errors %}
+          {{form.middle_name.errors}}
+        {% endif %}
+      </div>
+
+       <label for="">{{form.last_name.label}}</label>
+      {{form.last_name}}
+      <div style="color: red;">
+        {% if form.last_name.errors %}
+          {{form.last_name.errors}}
+        {% endif %}
+      </div>
+
+        <label for="">{{form.phone.label}}</label>
+      {{form.phone}}
+      <div style="color: red;">
+        {% if form.phone.errors %}
+          {{form.phone.errors}}
+        
+        {% elif form.non_field_errors %}
+        {{form.non_field_errors}}
+        {% endif %}
+      </div>
+    
+  <br>
+    <button type="submit" class="btn btn-danger">Update Profile</button>
+    <button type="button" class="btn btn-secondary btn-rounded "
+        onclick="history.back()">Back</button>  
+  </form>
+  
+</div>
+{% endblock content %}

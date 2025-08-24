@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-7">
+    <h1 class="mb-5">Your Shopping Cart</h1>
+   
+    <div class="row">
+         <div class="text-start mb-4">
+                <a href="{% url 'home' %}" class="btn btn-outline-primary" >
+                    <i class="bi bi-arrow-left me-2"></i>Continue Shopping
+                </a>
+            </div>
+             {% if messages %}
+    {% for msg in messages %}
+    <div class="alert alert-{{msg.tags}}" role="alert">
+            {{msg}}
+        </div>
+    {% endfor %}
+    {% endif %}
+    <div class="alert alert-success coupon-message" role="alert">
+            
+        </div>
+        <div class="col-lg-8">
+            <!-- Cart Items -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    {% if product %}
+                    {% for item in product %}
+                    
+                    <div class="row cart-item mb-2">
+                        <div class="col-md-2">
+                            <img src="{{item.image}}" alt="{{item.name}}" width= "60px"; class="img-fluid rounded">
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{% url 'product_detail' item.id %}" style="text-decoration: none; color:black;"><h5 class="card-title">{{item.name}}</h5></a>
+                            <span class="h4 me-2 price"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-rupee" viewBox="0 0 16 16">
+                <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z"/>
+            </svg>{{item.discounted_price}}</span>
+                 <span class="text-muted text-decoration-line-through">{{item.price}}</span>
+
+                        </div>
+                        {% comment %} <div class="col-md-2">
+                            <div class="input-group">
+                                <button class="btn btn-outline-secondary btn-sm" type="button">-</button>
+                                <input style="max-width:100px" type="text" class="form-control  form-control-sm text-center quantity-input" value="1">
+                                <button class="btn btn-outline-secondary btn-sm" type="button">+</button>
+                            </div>
+                        </div> {% endcomment %}
+                        <div class="col-md-2">
+                            <h6 class="fw-bold">Qnt: {{item.quantity}}</h6>
+                            <h6 class="fw-bold">size: {{item.size}}</h6>
+
+                        </div>
+                        <div class="col-md-2 ">
+                            <h6 class="fw-bold">Total: {{item.total_price}}</h6>
+
+                        </div>
+                        <div class="col-md-2">
+                             <button class="btn btn-primary delete" data-id={{item.id}} data-size={{item.size_id}}>Delete</button>
+                            
+                        </div>
+                    </div>  
+                      {% endfor %}
+                    </div>
+                    
+                   
+                    <hr>
+                    
+                    <!-- Continue Shopping Button -->
+                    
+                </div>
+
+                {% else %}
+                <h5 class="card-title mb-4">No items avilable in your cart.</h5>
+                {% endif %}
+              
+        
+        </div>
+          
+        <div class="col-lg-4">
+            {% if final_price %}
+            <!-- Cart Summary -->
+            <div class="card cart-summary">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Order Summary</h5>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Subtotal</span>
+                        <span>{{final_price}}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Shipping</span>
+                        <span>Free</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Tax</span>
+                        <span>Free</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-4">
+                        <strong>Total</strong>
+                       
+                        <strong>{{final_price}}</strong>
+                    </div>
+                    <br>
+                    {% if user.is_authenticated %}
+                    <div class="coupon-section">
+                        {% if is_coupon %}
+                        <h6 style="color: green;" height="20px">Coupon applied {{is_coupon}}</h6>
+                        <a href="{% url 'remove_coupon' %}"><input type="type" class="btn btn-danger" value="Remove coupon" ></a>
+                        {% else %}
+                        <form action="" method="POST">
+                            {% csrf_token %} 
+                            <label for="">Apply Coupon</label>
+                            <input type="text" id="coupon" class="form-control" placeholder="Coupon">                    
+                            <button type="submit" class="btn btn-danger coupon_btn">Apply Coupon</button>
+                            
+                        </form> 
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    <br>
+                    
+                    <form action="/shop/product/payment/" method="POST" id="order-form">
+
+                        {% if user.is_authenticated %}
+                        {% if address %}
+                        <label >Address</label>
+                        <div class="selectaddress-alert" style="color: red;"></div>
+                        {% for adrs in address %}
+                        <ul>
+                            <input type="radio" name="address" value="{{adrs.id}}">{{adrs}}
+                        </ul>
+                        <br>    
+                        {% endfor %}
+                        {% endif %}
+                        <ul>
+                        <li style="color: blue;">Add a new address.</li>
+                        <a href="{% url 'address' %}"><li class="btn btn-primary">Delivary Address</li></a>
+                    </ul>
+                        <button type="submit" id="checkout" class="btn btn-primary w-100 ">Place Order</button>
+                    {% else %}
+                        <a href="{% url 'login' %}"><li class="btn btn-primary">Place Order</li></a>
+                        {% endif %}
+                    </form>
+                    <br>
+                    <hr>
+                    {% comment %} <button type="submit" id="razorpay" class="btn btn-primary w-100 ">Place Order Razorpay</button> {% endcomment %}
+
+
+
+                </div>
+            </div>
+            {% endif %}
+    </div>
+   
+</div>
+
+{% endblock content %}
+
+{% block scripts %}
+<script>
+
+var delete_item_url="{% url 'delete_item' %}"
+var coupon_url="{% url 'coupon' %}"
+var address_url="{% url 'address_select' %}"
+var csrf_token="{{csrf_token}}"
+let razorpay_url="{% url 'razorpay_handler' %}"
+let varify_payment_url="{% url 'verify_razorpay' %}"
+</script>
+{% endblock scripts %}
+

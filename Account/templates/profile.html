@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% block content %}
+<section style="background-color: #eee;">
+  <div class="container py-5" >
+    <div class="row">
+      <div class="col">
+        <nav aria-label="breadcrumb" class="bg-body-tertiary rounded-3 p-3 mb-4">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+          </ol>
+        </nav>
+              {% if messages %}
+          {% for msg in messages %}
+          <div class="alert alert-primary" role="alert">
+                  {{msg}}
+              </div>
+          {% endfor %}
+          {% endif %}
+            </div>
+
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            {% if user.user_image %}
+            <img src="{{user.user_image.url}}" alt="avatar"
+            class="rounded-circle img-fluid" style="width: 150px;">
+            {% else %}
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+            class="rounded-circle img-fluid" style="width: 150px;">
+            {% endif %}
+            <h5 class="my-3">{{user.username}}</h5>
+            <p class="text-muted mb-1">{{user.first_name}} {{user.last_name}}</p>
+            <p>Referral Code: {{user.referral_code}}</p>
+            <br>
+            
+            <div class="d-flex justify-content-center mb-2">
+              <a href="{% url 'profile_image' %}">
+                <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-danger">Change Picture</button></a>
+              
+              <a href="{% url 'Change_Password' %}">
+                <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-danger ms-1">Change password</button></a>
+            </div> 
+          </div>  
+        </div>
+        <div class="card mb-4 mb-lg-0">
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush rounded-3">
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <h6>Referred By</h6>
+                {{request.user.referred_by}}
+              </li>
+              {% if coupon %}
+              {% for item in coupon %}
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <h6>Referral Rewards</h6>
+                {{item.code}}
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <h6>Referral Rewards quantity</h6>
+                {{item.quantity}}
+              </li>
+              {% endfor %}
+              {% endif %}
+              {% if reffered_users %}
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <h6>Referred Users</h6>
+                {% for user in reffered_users %}
+                  {{user}},
+                {% endfor %}
+              </li>
+              {% endif %}
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                <h6><a href="{% url 'transaction' %}">Transaction History</a></h6>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+      
+                <h6><a href="{% url 'orders' %}">Order History</a></h6>
+              </li>
+            
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">User Name</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{user.username}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{user.email}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">First Name</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{user.first_name}}</p>
+              </div>
+            </div>
+             <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Middle Name</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{user.middle_name}}</p>
+              </div>
+            </div>
+             <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Last Name</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{user.last_name}}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Phone</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{user.phone}}</p>
+              </div>
+            </div>
+            
+            <hr>
+           
+          </div>
+          <div class="d-flex justify-content-center mb-2">
+
+            <a href="{% url 'profie_edit' %}">
+              <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-danger">Edit Profile</button></a>
+            </div>
+        </div>
+</section>
+{% endblock content %}

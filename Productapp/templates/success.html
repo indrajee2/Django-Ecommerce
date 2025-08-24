@@ -1,0 +1,41 @@
+ {% extends 'base.html' %}
+ {% block content %}
+ <div class="container mt-5" style="background-color: antiquewhite;">
+ {% if messages %}
+    {% for msg in messages %}
+    <div class="alert alert-primary" role="alert">
+            {{msg}}
+    </div>
+    {% endfor %}
+    {% endif %}
+
+<table class="table">
+  <thead class="thead-light">
+    <tr>
+     
+      <th scope="col">User</th>
+      <th scope="col">Email Address</th>
+      <th scope="col">Transaction id</th>
+      <th scope="col">Total Amount</th>
+      <th scope="col">payment status</th>
+      <th scope="col">payment Date</th>
+    </tr>
+  </thead>
+  <tbody>
+        {% if data %}
+        
+    <tr>
+      <th scope="row">{{data.user.username}}</th>
+      <th scope="row">{{data.user.email}}</th>
+      <td>{{data.transaction_id}}</td>
+      <td>{{data.total_amount}}</td>
+      <td>{{data.status}}</td>
+      <td>{{data.payment_date}}</td>
+    </tr>
+   
+   {% endif %}
+   
+  </tbody>
+</table>
+</div>
+{% endblock content %}

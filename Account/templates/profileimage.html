@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5" style="background-color: #d2d9e0;">
+<h2 class="text-center mb-4">Edit Profile</h2>
+    <form method="POST" class="p-4 border rounded shadow mb-5" novalidate style="background-color:rgb(125, 157, 216);" enctype="multipart/form-data">
+     {% if messages %}
+    {% for msg in messages %}
+    <div class="alert alert-primary" role="alert">
+            {{msg}}
+        </div>
+    {% endfor %}
+    {% endif %}
+    {% csrf_token %}
+       
+      {{form.user_image}}
+      <div style="color: red;">
+        {% if form.user_image.errors %}
+          {{form.user_image.errors}}
+        {% endif %}
+      </div>
+      <br>
+       <button type="submit" class="btn btn-danger">Update Picture</button>
+    
+      <button type="submit" class="btn btn-secondary btn-rounded "
+        onclick="history.back()">Back</button>
+    
+
+{% endblock content%}

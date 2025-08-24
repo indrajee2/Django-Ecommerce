@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %} forget password link {% endblock title %}
+
+{% block content %}
+<div class="container mt-5" style="background-color: antiquewhite;">
+<h2 class="text-center mb-4">Forget Password Link</h2>
+    <form method="POST" class="p-4 border rounded shadow">
+    {% if messages %}
+    {% for msg in messages %}
+    <div class="alert alert-primary" role="alert">
+            {{msg}}
+        </div>
+    {% endfor %}
+    {% endif %}
+    {% csrf_token %}
+    <div class="mb-3">
+        {{form.password.label}}
+        {{form.password}}
+      </div>
+       <div class="mb-3">
+        {{form.confirm_password.label}}
+        {{form.confirm_password}}
+      </div>
+         {% if form.non_field_errors %}
+        <div style="color:red;">{{form.non_field_errors}}</div>
+        {% endif %}
+
+      <input type="submit" class="btn btn-danger" value="submit">
+</form>
+</div>
+{% endblock content %}

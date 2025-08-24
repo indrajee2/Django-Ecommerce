@@ -1,0 +1,39 @@
+ {% extends 'base.html' %}
+ {% block content %}
+ <div class="card mb-4">
+        <div class="card-header">Billing History</div>
+        <div class="card-body p-0">
+             <button type="submit" class="btn btn-secondary btn-rounded "
+        onclick="history.back()">Back</button>
+    
+            <!-- Billing history table-->
+            <div class="table-responsive table-billing-history">
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th class="border-gray-200" scope="col">Transaction ID</th>
+                            <th class="border-gray-200" scope="col">Amount</th>
+                            <th class="border-gray-200" scope="col">Date</th>
+                            <th class="border-gray-200" scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if transaction %}
+                        {% for trans in transaction %}
+                        <tr>
+                            <td>{{trans.transaction_id}}</td>
+                            <td>{{trans.total_amount}}</td>
+                            <td>{{trans.payment_date}}</td>
+                            <td><span class="badge bg-success ">{{trans.status}}</span></td>
+                        </tr>
+                        {% endfor %}
+                        {% endif %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-7">
+    <h1 class="mb-5">Your Watchlist</h1>
+   
+    <div class="row">
+         <div class="text-start mb-4">
+                <a href="{% url 'home' %}" class="btn btn-outline-primary" >
+                    <i class="bi bi-arrow-left me-2"></i>Back
+                </a>
+            </div>
+             {% if messages %}
+    {% for msg in messages %}
+    <div class="alert alert-{{msg.tags}}" role="alert">
+            {{msg}}
+        </div>
+    {% endfor %}
+    {% endif %}
+        </div>
+        <div class="col-lg-8">
+            <!-- Cart Items -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    {% if product %}
+                    {% for item in product %}
+                    
+                    <div class="row cart-item mb-2">
+                        <div class="col-md-2">
+                            <img src="{{item.product.image.url}}" alt="{{item.prodct.name}}" width= "60px"; class="img-fluid rounded">
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{% url 'product_detail' item.id %}" style="text-decoration: none; color:black;"><h5 class="card-title">{{item.product.name}}</h5></a>
+                            <span class="h4 me-2 price"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-rupee" viewBox="0 0 16 16">
+                <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z"/>
+            </svg>{{item.product.discounted_price}}</span>
+                 <span class="text-muted text-decoration-line-through">{{item.product.price}}</span>
+
+                        </div>
+                        {% comment %} <div class="col-md-2">
+                            <div class="input-group">
+                                <button class="btn btn-outline-secondary btn-sm" type="button">-</button>
+                                <input style="max-width:100px" type="text" class="form-control  form-control-sm text-center quantity-input" value="1">
+                                <button class="btn btn-outline-secondary btn-sm" type="button">+</button>
+                            </div>
+                        </div> {% endcomment %}
+                        <div class="col-md-2 ">
+                            <h6 class="fw-bold">Price: {{item.product.discounted_price}}</h6>
+
+                        </div>
+                        <div class="col-md-2">
+                             <button class="btn btn-danger remove-btn" data-id={{item.product.id}} >Remove</button>
+                            
+                        </div>
+                    </div>  
+                      {% endfor %}
+                    </div>
+                    {% else %}
+                    <h4> No product avilable in watchlist
+                    {% endif%}
+                    
+                   
+                    <hr>
+                    
+                    <!-- Continue Shopping Button -->
+                    
+                </div>
+
+
+{% endblock content %}
+{% block scripts %}
+
+<script>
+    let remove_watchlist_item_url="{% url 'watchlist' %}"
+</script>
+{% endblock scripts %}

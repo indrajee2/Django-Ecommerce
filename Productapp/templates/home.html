@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}
+Ecommerce Home
+{% endblock title %}
+
+{% block content %}
+<!-- Post sections -->
+<div class="container my-3">
+    {% if messages %}
+    {% for msg in messages %}
+    <div class="alert alert-primary" role="alert">
+            {{msg}}
+        </div>
+    {% endfor %}
+    {% endif %}
+ 
+    <!---loop-->
+  <div class="row flex-wrap"> 
+   {% for item in product %}
+      <div class="col-md-4 col-sm-6 mb-4"> 
+        <div class="card">
+          <a href="{% url 'product_detail' item.id %}"><img src="{{item.image.url}}" class="card-img-top" height="500px" alt="item.name"/></a>
+          <div class="card-body">
+            <h3 class="card-title">{{item.name}}</h3>
+             <h6 class="card-text"> Price <span class="h4 me-2 price"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-rupee" viewBox="0 0 16 16">
+                <path d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4z"/>
+            </svg>{{item.discounted_price}}
+           <span class="text-muted text-decoration-line-through">{{item.price}}</span>
+                <span class="badge bg-danger ms-2">{{item.get_discount_price}}%</span></h6>
+            <p class="card-text">{{item.description}}</p>
+           
+            
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+<nav aria-label="Page navigation">
+  <ul class="pagination justify-content-center">
+
+    {% if product.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ product.previous_page_number }}" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">&laquo;</span>
+      </li>
+    {% endif %}
+
+    {% for num in product.paginator.page_range %}
+      {% if product.number == num %}
+        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+      {% endif %}
+    {% endfor %}
+
+    {% if product.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ product.next_page_number }}" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">&raquo;</span>
+      </li>
+    {% endif %}
+
+  </ul>
+</nav>
+
+{% endblock content %}
